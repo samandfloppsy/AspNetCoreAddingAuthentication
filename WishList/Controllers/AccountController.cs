@@ -36,7 +36,7 @@ namespace WishList.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> RegisterAsync (RegisterViewModel registerViewModel)
+        public async Task<IActionResult> Register (RegisterViewModel registerViewModel)
         {
             if (!ModelState.IsValid) return View(registerViewModel);
             var result = await _userManager.CreateAsync(new ApplicationUser
