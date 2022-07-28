@@ -68,7 +68,11 @@ namespace WishList.Controllers
 
             var result = _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false).Result;
 
-            if (!result.Succeeded) ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+            if (!result.Succeeded)
+            {
+                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                return View(model);
+            }
             return RedirectToAction("Index", "Item");
         }
 
