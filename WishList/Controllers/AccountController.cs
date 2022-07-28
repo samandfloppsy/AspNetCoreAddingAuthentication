@@ -22,11 +22,6 @@ namespace WishList.Controllers
             _signInManager = signInManager;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Register()
@@ -36,15 +31,14 @@ namespace WishList.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult Register (RegisterViewModel registerViewModel)
+        public IActionResult Register (RegisterViewModel model)
         {
-            if (!ModelState.IsValid) return View(registerViewModel);
-            var result = _userManager.CreateAsync(new ApplicationUser
+            if (!ModelState.IsValid) return View(model);
+            var result = _userManager.CreateAsync(new ApplicationUser()
             {
-                UserName = registerViewModel.Email,
-                Email = registerViewModel.Email,
-                PasswordHash = registerViewModel.Password
-            }).Result;
+                UserName = model.Email,
+                Email = model.Email
+            }, model.Password).Result;
 
             if (!result.Succeeded)
             {
@@ -52,7 +46,7 @@ namespace WishList.Controllers
                 {
                     ModelState.AddModelError("Password", error.Description);
                 }
-                return View(registerViewModel);
+                return View(model);
             }
 
             return RedirectToAction("Index", "Home");
